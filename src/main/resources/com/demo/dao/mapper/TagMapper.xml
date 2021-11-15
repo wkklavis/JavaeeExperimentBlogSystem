@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--MyBatis配置文件-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demo.dao.mapper.TagMapper">
+
+    <!-- 根据文章id取得Tags-->
+    <select id="getTagsByBlogId" parameterType="long" resultType="com.demo.dao.pojo.Tag">
+        select id,tag_name as tagName from tag
+        where id in
+        (select tag_id from blog_tag where blog_id=#{blogId})
+    </select>
+</mapper>
