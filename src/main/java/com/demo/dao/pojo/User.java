@@ -58,11 +58,6 @@ public class User {
     private LocalDateTime createDate;
 
     /**
-     * 加密盐
-     */
-    private String salt;
-
-    /**
      * 管理员权限
      */
     private int admin;
