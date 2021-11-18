@@ -54,8 +54,7 @@ public class User {
     /**
      * 创建时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createDate;
+    private Long createDate;
 
     /**
      * 管理员权限

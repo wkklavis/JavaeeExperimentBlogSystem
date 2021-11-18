@@ -7,7 +7,7 @@ import com.demo.vo.ReturnResult;
 public interface UserService extends IService<User> {
     public User getUserById(Long userId);
 
-    User getUserByUsernameAndPassword(String username, String password);
+    User getUserByUsername(String username);
 
     ReturnResult getUserByToken(String token);
 }

@@ -1,6 +1,7 @@
 package com.demo.controller;
 
 import com.demo.service.LoginService;
+import com.demo.util.UserThreadLocal;
 import com.demo.vo.ReturnResult;
 import com.demo.vo.param.LoginParam;
 import com.demo.vo.param.PageParam;
@@ -19,5 +20,11 @@ public class LoginController {
     @PostMapping
     public ReturnResult login(@RequestBody LoginParam loginParam){
         return loginService.login(loginParam);
+    }
+    @PostMapping("/test")
+    public ReturnResult test(){
+        //使用线程可以取出当前访问的user
+        System.out.println(UserThreadLocal.get());
+        return ReturnResult.returnSuccess("登陆成功");
     }
 }

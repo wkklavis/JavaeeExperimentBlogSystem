@@ -28,7 +28,7 @@ public class ReturnResult {
         return new ReturnResult(true ,200,"success",data);
     }
     public static ReturnResult returnFail(int code,String msg){
-        return new ReturnResult(false ,code,"fail",null);
+        return new ReturnResult(false ,code,msg,null);
     }
 
 

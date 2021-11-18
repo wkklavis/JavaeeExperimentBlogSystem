@@ -1,11 +1,16 @@
 package com.demo.dao.pojo;
 
-import javax.validation.constraints.NotBlank;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+@Data
 public class BlogText {
     /**
      * 主键
      */
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     /**
      * 文章正文

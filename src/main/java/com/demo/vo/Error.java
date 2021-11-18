@@ -14,7 +14,11 @@ public enum Error {
     UNKNOWN_ERROR(10002,"未知错误"),
 
     //10000开头为为用户信息相关的错误定义
-    USER_NOT_EXIST(20001,"用户不存在");
+    USER_NOT_EXIST(20001,"用户不存在"),
+
+    WRONG_PASSWORD(20002,"密码错误"),
+    USER_EXISTED(20003,"用户已存在"),
+    NOT_LOGGING(10000,"未登录");
 
     private int errorCode;
     private String errorMsg;

@@ -25,10 +25,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     }
 
     @Override
-    public User getUserByUsernameAndPassword(String username, String password) {
+    public User getUserByUsername(String username) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username",username);
-        queryWrapper.eq( "password",password);
         queryWrapper.select("id","username","password","nickname","avatar","email","status","create_date","admin");
         queryWrapper.last("limit 1");
         User user = userMapper.selectOne(queryWrapper);

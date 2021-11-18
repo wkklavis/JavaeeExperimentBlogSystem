@@ -3,9 +3,10 @@ package com.demo.dao.pojo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 import java.time.LocalDateTime;
-
+@Data
 public class Comment {
     /**
      * 评论id-主键
@@ -31,8 +32,7 @@ public class Comment {
     /**
      * 评论时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createDate;
+    private Long createDate;
 
     /**
      * 所属的文章--外键1
