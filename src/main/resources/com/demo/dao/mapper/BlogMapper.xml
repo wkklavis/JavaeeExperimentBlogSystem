@@ -3,5 +3,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.demo.dao.mapper.BlogMapper">
-
+    <!--List<Blog> getBlogsByTag(Long tagId);-->
+    <select id="getBlogsByTag" parameterType="long" resultType="com.demo.dao.pojo.Blog">
+        select id,title,description,create_date as createDate,views,user_id as userId from blog
+        where id in
+        (select blog_id from blog_tag where tag_id=#{tagId})
+    </select>
+    <!--    List<Blog> getBlogsByQueryKey(String key);-->
+    <select id="getBlogsByQueryKey" parameterType="String" resultType="com.demo.dao.pojo.Blog">
+        select id,title,description,create_date as createDate,views,user_id as userId from blog
+        where description like "%"#{key}"%" or title like "%"#{key}"%"
+    </select>
 </mapper>

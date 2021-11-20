@@ -17,4 +17,9 @@ public class CommentController {
     public ReturnResult addComment(@RequestBody CommentParam commentParam){
         return commentService.addComment(commentParam);
     }
+
+    @PostMapping("/delete/{id}")
+    public ReturnResult deleteComment(@PathVariable("id")Long commentId){
+        return commentService.deleteComment(commentId);
+    }
 }

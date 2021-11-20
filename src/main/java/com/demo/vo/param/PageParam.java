@@ -11,4 +11,6 @@ public class PageParam {
     int page = 1;
     //页大小
     int pageSize = 5;
+
+    Long tagId;
 }

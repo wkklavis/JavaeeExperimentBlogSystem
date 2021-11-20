@@ -11,11 +11,12 @@ import com.demo.service.BlogTextService;
 import com.demo.vo.info.BlogTextInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-
+@Transactional
 @Service
 public class BlogTextServiceImpl extends ServiceImpl<BlogTextMapper, BlogText> implements BlogTextService {
     @Autowired
@@ -31,5 +32,10 @@ public class BlogTextServiceImpl extends ServiceImpl<BlogTextMapper, BlogText> i
         blogTextInfo.setContent(blogText.getContent());
         blogTextInfo.setContentHtml(blogText.getContentHtml());
         return blogTextInfo;
+    }
+
+    @Override
+    public void deleteByBlogId(Long id) {
+        blogTextMapper.delete(new QueryWrapper<BlogText>().eq("blog_id",id));
     }
 }

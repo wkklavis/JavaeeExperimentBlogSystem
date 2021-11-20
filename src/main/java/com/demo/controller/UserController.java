@@ -3,10 +3,7 @@ package com.demo.controller;
 import com.demo.service.UserService;
 import com.demo.vo.ReturnResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController//返回json等内容到页面
 @RequestMapping("user")
@@ -22,5 +19,10 @@ public class UserController {
     @PostMapping("currentUser")
     public ReturnResult currentUser(@RequestHeader("Authorization") String token){
         return userService.getUserByToken(token);
+    }
+
+    @PostMapping("/delete/{id}")
+    public ReturnResult deleteUserById(@PathVariable("id")Long id){
+        return userService.deleteUserById(id);
     }
 }

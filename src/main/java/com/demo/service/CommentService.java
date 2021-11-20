@@ -14,5 +14,8 @@ public interface CommentService extends IService<Comment> {
     public List<CommentInfo> getCommentsByBlogId(Long blogId);
 
     ReturnResult addComment(CommentParam commentParam);
+
     ReturnResult deleteComment(Long commentId);
+
+    void deleteByBlogId(Long id);
 }

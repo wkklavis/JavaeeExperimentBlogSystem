@@ -18,7 +18,9 @@ public enum Error {
 
     WRONG_PASSWORD(20002,"密码错误"),
     USER_EXISTED(20003,"用户已存在"),
-    NOT_LOGGING(10000,"未登录");
+    NOT_LOGGING(10000,"未登录"),
+    NOT_ADMIN(10005,"不是管理员"),
+    NOT_AUTHOR(10005,"不是作者");
 
     private int errorCode;
     private String errorMsg;

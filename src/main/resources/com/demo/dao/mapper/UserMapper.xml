@@ -5,7 +5,7 @@
 <mapper namespace="com.demo.dao.mapper.UserMapper">
     <!-- 根据文章id取得Tags-->
     <select id="getUserById" parameterType="long" resultType="com.demo.dao.pojo.User">
-        select id,username,password,nickname,avatar,email,status,create_date as creatDate from user
+        select id,username,password,nickname,avatar,email,status,create_date as creatDate,admin from user
         where id=#{userId}
 
     </select>

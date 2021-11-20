@@ -25,4 +25,17 @@ public class BlogController {
     public ReturnResult publishBlog(@RequestBody BlogParam blogParam){
         return blogService.publishBlog(blogParam);
     }
+    //根据tagId查询所有含tag的文章
+    @PostMapping("/withtag/{id}")
+    public ReturnResult getBlogsByTag(@PathVariable("id")Long tagId){
+        return blogService.getBlogsByTag(tagId);
+    }
+    @PostMapping("query/{key}")
+    public ReturnResult getBlogsByQueryKey(@PathVariable("key")String key){
+        return blogService.getBlogsByQueryKey(key);
+    }
+    @PostMapping("delete/{id}")
+    public ReturnResult deleteBlogById(@PathVariable("id")Long id){
+        return blogService.deleteBlogById(id);
+    }
 }

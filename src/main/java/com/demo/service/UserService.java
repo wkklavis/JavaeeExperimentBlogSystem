@@ -10,4 +10,6 @@ public interface UserService extends IService<User> {
     User getUserByUsername(String username);
 
     ReturnResult getUserByToken(String token);
+
+    ReturnResult deleteUserById(Long id);
 }

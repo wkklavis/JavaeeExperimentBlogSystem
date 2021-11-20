@@ -4,10 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.demo.dao.mapper.CommentMapper;
 import com.demo.dao.mapper.UserMapper;
+import com.demo.dao.pojo.Blog;
 import com.demo.dao.pojo.Comment;
 import com.demo.dao.pojo.User;
+import com.demo.service.BlogService;
 import com.demo.service.CommentService;
 import com.demo.service.UserService;
+import com.demo.util.UserThreadLocal;
+import com.demo.vo.Error;
 import com.demo.vo.ReturnResult;
 import com.demo.vo.info.CommentInfo;
 import com.demo.vo.param.CommentParam;
@@ -25,6 +29,10 @@ import java.util.List;
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
     @Autowired
     CommentMapper commentMapper;
+    @Autowired
+    BlogService blogService;
+    @Autowired
+    UserService userService;
     @Override
     public List<CommentInfo> getCommentsByBlogId(Long blogId) {
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
@@ -62,7 +70,21 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Override
     public ReturnResult deleteComment(Long commentId) {
+        User user = UserThreadLocal.get();
+        //获取文章作者
+        Comment comment = commentMapper.selectById(commentId);
+        Blog blog = blogService.getById(comment.getBlogId());
+        User author = userService.getById(blog.getUserId());
+        //作者权限删除
+        if (user==null||user.getId()!=author.getId()){
+            return ReturnResult.returnFail(Error.NOT_AUTHOR.getErrorCode(),Error.NOT_AUTHOR.getErrorMsg());
+        }
         commentMapper.deleteById(commentId);
         return ReturnResult.returnSuccess("成功删除");
+    }
+
+    @Override
+    public void deleteByBlogId(Long id) {
+        commentMapper.delete(new QueryWrapper<Comment>().eq("blog_id",id));
     }
 }

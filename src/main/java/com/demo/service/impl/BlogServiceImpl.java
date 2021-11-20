@@ -2,7 +2,9 @@ package com.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.demo.dao.mapper.BlogTextMapper;
 import com.demo.dao.mapper.BlogMapper;
 import com.demo.dao.pojo.*;
@@ -30,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 @Transactional
 @Service
-public class BlogServiceImpl implements BlogService {
+public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements BlogService {
     @Autowired
     BlogMapper blogMapper;
     @Autowired
@@ -127,5 +129,60 @@ public class BlogServiceImpl implements BlogService {
         }
 
         return ReturnResult.returnSuccess(new HashMap<String,Long>().put("id",blog.getId()));
+    }
+
+    @Override
+    public ReturnResult getBlogsByTag(Long tagId) {
+        List<Blog> blogs = blogMapper.getBlogsByTag(tagId);
+        List<BlogInfo> blogInfos = new ArrayList<>();
+        List<TagInfo> tagInfos = new ArrayList<>();
+        Tag tag = tagService.getById(tagId);
+        tagInfos.add(new TagInfo(tag.getId(),tag.getTagName()));
+        for (Blog blog : blogs) {
+            Instant instant = Instant.ofEpochMilli(blog.getCreateDate());
+            ZoneId zone = ZoneId.systemDefault();
+            LocalDateTime time =  LocalDateTime.ofInstant(instant, zone);
+            BlogInfo blogInfo = new BlogInfo(blog.getId(),blog.getTitle(),blog.getDescription(),
+                    time,blog.getViews());
+            blogInfo.setUserNickname(userService.getUserById(blog.getUserId()).getNickname());
+            blogInfo.setTags(tagInfos);
+            blogInfos.add(blogInfo);
+        }
+        return ReturnResult.returnSuccess(blogInfos);
+    }
+
+    @Override
+    public ReturnResult getBlogsByQueryKey(String key) {
+        List<Blog> blogs = blogMapper.getBlogsByQueryKey(key);
+        List<BlogInfo> blogInfos = new ArrayList<>();
+        for (Blog blog : blogs) {
+            Instant instant = Instant.ofEpochMilli(blog.getCreateDate());
+            ZoneId zone = ZoneId.systemDefault();
+            LocalDateTime time =  LocalDateTime.ofInstant(instant, zone);
+            BlogInfo blogInfo = new BlogInfo(blog.getId(),blog.getTitle(),blog.getDescription(),
+                    time,blog.getViews());
+            blogInfo.setUserNickname(userService.getUserById(blog.getUserId()).getNickname());
+            blogInfo.setTags(tagService.getTagsByBlogId(blog.getId()));
+            blogInfos.add(blogInfo);
+        }
+        return ReturnResult.returnSuccess(blogInfos);
+
+    }
+
+    @Override
+    public ReturnResult deleteBlogById(Long id) {
+        blogMapper.deleteById(id);
+        blog_tagService.deleteByBlogId(id);
+        blogTextService.deleteByBlogId(id);
+        commentService.deleteByBlogId(id);
+        return ReturnResult.returnSuccess("删除成功");
+    }
+
+    @Override
+    public void deleteBlogByUserId(Long userId) {
+        List<Blog> blogs = blogMapper.selectList(new QueryWrapper<Blog>().eq("user_id", userId));
+        for (Blog blog : blogs) {
+            deleteBlogById(blog.getId());
+        }
     }
 }

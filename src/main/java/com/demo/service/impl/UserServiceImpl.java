@@ -5,20 +5,26 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.demo.dao.mapper.UserMapper;
 import com.demo.dao.pojo.User;
+import com.demo.service.BlogService;
 import com.demo.service.LoginService;
 import com.demo.service.UserService;
+import com.demo.util.UserThreadLocal;
 import com.demo.vo.Error;
 import com.demo.vo.ReturnResult;
 import com.demo.vo.info.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
     @Autowired
     UserMapper userMapper;
     @Autowired
     LoginService loginService;
+    @Autowired
+    BlogService blogService;
     @Override
     public User getUserById(Long userId) {
         return userMapper.getUserById(userId);
@@ -40,5 +46,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         if (user==null)return ReturnResult.returnFail(Error.PARAMETER_VALIDATION_ERROR.getErrorCode(),Error.PARAMETER_VALIDATION_ERROR.getErrorMsg());
         UserInfo userInfo = new UserInfo(user.getId(),user.getNickname(),user.getAvatar());
         return ReturnResult.returnSuccess(userInfo);
+    }
+
+    @Override
+    public ReturnResult deleteUserById(Long id) {
+        User user = UserThreadLocal.get();
+        if (user.getAdmin()==0){
+            return ReturnResult.returnFail(Error.NOT_ADMIN.getErrorCode(), Error.NOT_ADMIN.getErrorMsg());
+        }
+        userMapper.delete(new QueryWrapper<User>().eq("id",id));
+        blogService.deleteBlogByUserId(id);
+        return ReturnResult.returnSuccess("删除成功");
     }
 }

@@ -10,4 +10,6 @@
         where id in
         (select tag_id from blog_tag where blog_id=#{blogId})
     </select>
+
+
 </mapper>
