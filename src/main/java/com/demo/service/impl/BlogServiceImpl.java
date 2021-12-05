@@ -2,10 +2,8 @@ package com.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.demo.dao.mapper.BlogTextMapper;
 import com.demo.dao.mapper.BlogMapper;
 import com.demo.dao.pojo.*;
 import com.demo.service.BlogService;
@@ -184,5 +182,20 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper,Blog> implements Blo
         for (Blog blog : blogs) {
             deleteBlogById(blog.getId());
         }
+    }
+
+    @Override
+    public ReturnResult saveBlog(BlogParam blogParam) {
+        Blog blog = getById(blogParam.getId());
+        blog.setTitle(blogParam.getTitle());
+        blog.setDescription(blogParam.getDescription());
+        blogMapper.updateById(blog);
+        BlogText blogText = blogTextService.getById(blogParam.getText().getId());
+        blogText.setContent(blogParam.getText().getContent());
+        blogText.setContentHtml(blogParam.getText().getContentHtml());
+        blogTextService.save(blogText);
+        List<Tag> tags = blogParam.getTags();
+        return ReturnResult.returnSuccess("修改成功");
+
     }
 }

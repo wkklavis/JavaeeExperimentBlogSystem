@@ -65,7 +65,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public ReturnResult logout(String token) {
-        return null;
+        return ReturnResult.returnSuccess("退出");
     }
 
     @Override

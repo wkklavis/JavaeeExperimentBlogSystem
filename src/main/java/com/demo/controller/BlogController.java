@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import com.demo.dao.pojo.Blog;
 import com.demo.service.BlogService;
 import com.demo.vo.ReturnResult;
 import com.demo.vo.param.BlogParam;
@@ -17,6 +18,10 @@ public class BlogController {
     public ReturnResult getBlogsByPage(@RequestBody PageParam param){
         return blogService.getBlogsByPage(param);
     }
+/*    @PostMapping("/{id}")
+    public ReturnResult getBlogById(@PathVariable("id")Long id){
+        return blogService.getBlogDetailById(id);
+    }*/
     @PostMapping("/detail/{id}")
     public ReturnResult getBlogDetailById(@PathVariable("id")Long id){
         return blogService.getBlogDetailById(id);
@@ -34,8 +39,12 @@ public class BlogController {
     public ReturnResult getBlogsByQueryKey(@PathVariable("key")String key){
         return blogService.getBlogsByQueryKey(key);
     }
-    @PostMapping("delete/{id}")
+    @PostMapping("/delete/{id}")
     public ReturnResult deleteBlogById(@PathVariable("id")Long id){
         return blogService.deleteBlogById(id);
+    }
+    @PostMapping("/save")
+    public ReturnResult saveBlog(@RequestBody BlogParam blogParam){
+        return blogService.saveBlog(blogParam);
     }
 }

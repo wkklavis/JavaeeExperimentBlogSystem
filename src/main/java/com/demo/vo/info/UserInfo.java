@@ -13,5 +13,7 @@ public class UserInfo {
 
     private String avatar;
 
+    private String email;
+
 
 }

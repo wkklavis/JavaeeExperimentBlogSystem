@@ -14,7 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         //跨域配置，允许8080端口访问
-        //registry.addMapping("/**").allowedOrigins("http:localhost:5555");
+        registry.addMapping("/**").allowedOrigins("http://localhost:8080");
     }
 
     @Override
@@ -24,6 +24,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/blogs/publish")
                 .addPathPatterns("/blogs/delete/*")
                 .addPathPatterns("/user/delete/*")
-                .addPathPatterns("/comment/delete/*");
+                .addPathPatterns("/comment/delete/*")
+                .addPathPatterns("/blogs/save")
+                .addPathPatterns("/logout");
     }
 }

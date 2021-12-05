@@ -20,4 +20,6 @@ public interface BlogService extends IService<Blog> {
     ReturnResult deleteBlogById(Long id);
 
     void deleteBlogByUserId(Long userId);
+
+    ReturnResult saveBlog(BlogParam blogParam);
 }

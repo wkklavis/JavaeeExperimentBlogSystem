@@ -44,7 +44,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     public ReturnResult getUserByToken(String token) {
         User user = loginService.pasreToken(token);
         if (user==null)return ReturnResult.returnFail(Error.PARAMETER_VALIDATION_ERROR.getErrorCode(),Error.PARAMETER_VALIDATION_ERROR.getErrorMsg());
-        UserInfo userInfo = new UserInfo(user.getId(),user.getNickname(),user.getAvatar());
+        UserInfo userInfo = new UserInfo(user.getId(),user.getNickname(),user.getAvatar(),user.getEmail());
         return ReturnResult.returnSuccess(userInfo);
     }
 

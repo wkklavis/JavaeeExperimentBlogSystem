@@ -22,4 +22,9 @@ public class CommentController {
     public ReturnResult deleteComment(@PathVariable("id")Long commentId){
         return commentService.deleteComment(commentId);
     }
+
+    @GetMapping("/{blogId}")
+    public ReturnResult getCommentsByBlogId(@PathVariable("blogId")Long blogId){
+        return ReturnResult.returnSuccess(commentService.getCommentsByBlogId(blogId));
+    }
 }

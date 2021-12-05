@@ -7,6 +7,8 @@ import java.util.List;
 
 @Data
 public class BlogParam {
+    Long id;
+
     String title;
 
     BlogTextParam text;
